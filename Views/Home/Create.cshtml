@@ -1,0 +1,21 @@
+﻿@model MyWebApp.Models.MusicModel.Music;
+@{
+    ViewData["Title"] = "Create Music";
+}
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+<form method="POST" asp-controller="Home" asp-action="Create">
+    <div class="form-grop my-4">
+        <label asp-for="MusicName"></label>
+        <input type="text" asp-for="MusicName" class="form-control">
+    </div>
+    <div class="form-grop my-4">
+        <label asp-for="MusicGenre"></label>
+        <input type="text" asp-for="MusicGenre" class="form-control">
+    </div>
+    <div class="form-grop my-4">
+        <label asp-for="MusicDuration"></label>
+        <input type="number" asp-for="MusicDuration" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary my-2">Create</button>
+</form>
