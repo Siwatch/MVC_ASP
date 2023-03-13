@@ -19,7 +19,7 @@ public class MusicRepo : IMusicRepo
             return new BaseResponse() {StatusCode = 200};
         }
         catch(Exception ex){
-            return new BaseResponse() {StatusCode = 400};
+            return new BaseResponse() {StatusCode = 500};
         }
     }
 

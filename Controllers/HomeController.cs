@@ -35,7 +35,7 @@ public class HomeController : Controller
         if(result.StatusCode == 200){
             return RedirectToAction("Index");
         }
-        return View();
+        return StatusCode(StatusCodes.Status500InternalServerError);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
