@@ -16,9 +16,10 @@ public class HomeController : Controller
         _musicService = musicService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var allMusic = await _musicService.Get();
+        return View(allMusic.OrderBy(music => music.Id));
     }
 
     public IActionResult Create()
@@ -31,11 +32,46 @@ public class HomeController : Controller
     public async Task<IActionResult> Create(Music musicRequest)
     {
         System.Console.WriteLine($"Request Parameter {JsonConvert.SerializeObject(musicRequest)}");
-        var result = await _musicService.Create(musicRequest);
-        if(result.StatusCode == 200){
-            return RedirectToAction("Index");
+        if(ModelState.IsValid){
+            var result = await _musicService.Create(musicRequest);
+            if(result.StatusCode == 200){
+                return RedirectToAction("Index");
+            }
         }
-        return StatusCode(StatusCodes.Status500InternalServerError);
+        return View();
+    }
+
+    public async Task<IActionResult> Edit(int id){
+        System.Console.WriteLine($"Music Id {id}");
+        var music = await _musicService.GetById(id);
+        if(music != null){
+            return View(music);
+        }
+        return NotFound();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Music musicRequest)
+    {
+        System.Console.WriteLine($"Request Parameter {JsonConvert.SerializeObject(musicRequest)}");
+        if(ModelState.IsValid){
+            System.Console.WriteLine($"Validate Model");
+            var result = await _musicService.Update(musicRequest);
+            if(result.StatusCode == 200){
+                return RedirectToAction("Index");
+            }
+        }
+        return View(musicRequest);
+    }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        var result = await _musicService.Delete(id);
+        if(result == null){
+            return NotFound();
+        }
+        return RedirectToAction("Index");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

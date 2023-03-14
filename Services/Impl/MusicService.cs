@@ -18,19 +18,34 @@ public class MusicService : IMusicService {
         System.Console.WriteLine($"Status {JsonConvert.SerializeObject(result)}");
         return result;
     }
-    public Task<IActionResult> Delete()
+    public async Task<BaseResponse> Delete(int id)
     {
-        throw new NotImplementedException();
+        var result = await _musicRepo.DeleteAsync(id);
+        return result;
     }
 
-    public Task<List<Music>> Get()
+    public async Task<IEnumerable<Music>> Get()
     {
-        throw new NotImplementedException();
+        var result = await _musicRepo.GetAsync();
+        return result;
     }
 
-    public Task<IActionResult> Update()
+    public async Task<BaseResponse> Update(Music musicRequest)
     {
-        throw new NotImplementedException();
+        try{
+            var result = await _musicRepo.UpdateAsync(musicRequest);
+            return result;
+        }catch(Exception ex){
+            throw ex;
+        }
     }
-
+    public async Task<Music> GetById(int id)
+    {
+        try{
+            var result = await _musicRepo.GetByIdAsync(id);
+            return result;
+        }catch(Exception ex){
+            throw ex;
+        }
+    }
 }

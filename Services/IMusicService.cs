@@ -4,7 +4,8 @@ using MyWebApp.Models.MusicModel;
 namespace MyWebApp.Services;
 public interface IMusicService {
     Task<BaseResponse> Create(Music musicRequest);
-    Task<List<Music>> Get();
-    Task<IActionResult> Update();
-    Task<IActionResult> Delete();
+    Task<IEnumerable<Music>> Get();
+    Task<Music> GetById(int id);
+    Task<BaseResponse> Update(Music musicRequest);
+    Task<BaseResponse> Delete(int id);
 }

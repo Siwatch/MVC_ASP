@@ -1,8 +1,33 @@
-﻿@{
+﻿@model IEnumerable<MyWebApp.Models.MusicModel.Music>;
+@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1 class="text-center">Home</h1>
+@if(@Model.Count() > 0){
+    <table class="table">
+    <thead>
+        <tr class="text-center">
+            <th>Id</th>
+            <th class="text-center">MusicName</th>
+            <th class="text-center">MusicGenre</th>
+            <th class="text-center">Duration (Minute)</th>
+            <th class="text-center">Edit</th>
+            <th class="text-center">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var music in Model){
+            <tr>
+                <th class="text-center">@music.Id</th>
+                <th class="text-center">@music.MusicName</th>
+                <th class="text-center">@music.MusicGenre</th>
+                <th class="text-center">@music.MusicDuration</th>
+                <th class="text-center"><a class="btn btn-warning" asp-controller="Home" asp-action="Edit" asp-route-id=@music.Id>Edit</a></th>
+                <th class="text-center"><a class="btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id=@music.Id>Delete</a></th>
+            </tr>
+        }
+    </tbody>
+</table>
+}else{
+    <div class="alert alert-secondary">No data</div>
+}
