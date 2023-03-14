@@ -9,8 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var connHost = Environment.GetEnvironmentVariable("DB_HOST");
+var connPort = Environment.GetEnvironmentVariable("DB_PORT");
+var connUser = Environment.GetEnvironmentVariable("DB_USER");
+var connPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+var connectionString = $"Server={connHost}; Database=MusicDB; Port={connPort}; UserId={connUser}; Password={connPassword};";
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection"))
+    options.UseNpgsql(connectionString)
 );
 
 // Add Injection References 
