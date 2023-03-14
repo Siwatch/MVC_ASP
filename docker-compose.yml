@@ -6,7 +6,7 @@ services:
     container_name: app-db
     image: postgres:alpine
     ports:
-      - 5432:5432
+      - 8002:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
@@ -14,7 +14,7 @@ services:
       - demoblazorapp
   mywebapp:
     container_name: my-web-app
-    image: myblazorapp
+    image: siwatch/crudmvcapp:1.0
     ports:
       - 8001:80
     environment:
