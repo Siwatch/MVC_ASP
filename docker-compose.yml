@@ -1,9 +1,9 @@
 version: '3.4'
 networks:
-  demoblazorapp:
+  crudappnetwork:
 services:
-  demoappdb:
-    container_name: app-db
+  databaseservice:
+    container_name: postgresdbcontainer
     image: postgres:alpine
     ports:
       - 8002:5432
@@ -11,18 +11,19 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     networks:
-      - demoblazorapp
-  mywebapp:
-    container_name: my-web-app
-    image: siwatch/crudmvcapp:1.0
+      - crudappnetwork
+  mvcwebservice:
+    container_name: crudappcontainer
+    image: siwatch/aspmvcapp:1.0
     ports:
       - 8001:80
     environment:
-      - DB_HOST=demoappdb
+      - DB_HOST=databaseservice
       - DB_PORT=5432
       - DB_USER=postgres
       - DB_PASSWORD=password
     depends_on: 
-      - demoappdb
+      - databaseservice
     networks:
-      - demoblazorapp
+      - crudappnetwork
+
